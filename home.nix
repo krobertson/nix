@@ -1,14 +1,24 @@
-{ config, pkgs, lazyvim, ... }:
+{
+  config,
+  pkgs,
+  lazyvim,
+  ...
+}:
 
 {
   home.username = "ken";
   home.homeDirectory = "/home/ken";
   home.stateVersion = "25.11";
 
-
   ##############
   ## PACKAGES
   home.packages = with pkgs; [
+    gcc
+    nodejs_24
+    tree-sitter
+    statix
+    markdownlint-cli2
+    neovim
     devenv
     ripgrep
     nil
@@ -19,8 +29,6 @@
     pcmanfm
     mise
     xfce.thunar
-    foot
-    kitty
     alacritty
     nwg-look
     hyprshot
@@ -29,35 +37,55 @@
     caligula
 
     (pkgs.writeShellApplication {
-       name = "ns";
-       runtimeInputs = with pkgs; [
-       fzf
-       (nix-search-tv.overrideAttrs {
-        env.GOEXPERIMENT = "jsonv2";
-       })
-       ];
-       text = ''exec "${pkgs.nix-search-tv.src}/nixpkgs.sh" "$@"'';
-     })
+      name = "ns";
+      runtimeInputs = with pkgs; [
+        fzf
+        (nix-search-tv.overrideAttrs {
+          env.GOEXPERIMENT = "jsonv2";
+        })
+      ];
+      text = ''exec "${pkgs.nix-search-tv.src}/nixpkgs.sh" "$@"'';
+    })
   ];
-
 
   ##############
   ## PROGRAMS
   programs.sherlock.enable = true;
-  programs.lazyvim.enable = true;
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
+  programs.zellij.enable = true;
 
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
       enable = true;
       theme = "alanpeabody";
-      plugins = ["git" "sudo"];
+      plugins = [
+        "git"
+        "sudo"
+      ];
+    };
+    history = {
+      append = true;
+      share = false;
     };
     initContent = ''
+      DISABLE_UNTRACKED_FILES_DIRTY="true"
       eval "$(${pkgs.mise}/bin/mise activate zsh)"
     '';
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    daemon.enable = true;
+    flags = [ "--disable-up-arrow" ];
+    settings = {
+      "style" = "full";
+      "auto_sync" = "true";
+      "sync_frequency" = "5m";
+      "sync_address" = "https://atuin.r7n.dev";
+    };
   };
 
   programs.git = {
@@ -100,12 +128,10 @@
     '';
   };
 
-
   ##############
   ## SERVICES
   services.lxqt-policykit-agent.enable = true;
   services.gnome-keyring.enable = true;
-
 
   ##############
   ## APPEARANCE
