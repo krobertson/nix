@@ -13,14 +13,12 @@
   ##############
   ## PACKAGES
   home.packages = with pkgs; [
+    unzip
+    xclip
     gcc
     nodejs_24
-    tree-sitter
     statix
-    markdownlint-cli2
-    neovim
     devenv
-    ripgrep
     nil
     nixpkgs-fmt
     wofi
@@ -54,6 +52,40 @@
   programs.direnv.enable = true;
   programs.direnv.enableZshIntegration = true;
   programs.zellij.enable = true;
+
+  programs.lazyvim = {
+    enable = true;
+    installCoreDependencies = true;
+
+    extras = {
+      lang.nix.enable = true;
+      lang.python = {
+        enable = true;
+        installDependencies = true;
+        installRuntimeDependencies = true;
+      };
+      lang.go = {
+        enable = true;
+        installDependencies = true;
+        installRuntimeDependencies = true;
+      };
+      lang.markdown = {
+        enable = true;
+        installDependencies = true;
+        installRuntimeDependencies = true;
+      };
+      lang.rust = {
+        enable = true;
+        installDependencies = true;
+        installRuntimeDependencies = true;
+      };
+    };
+
+    extraPackages = with pkgs; [
+      nixd
+      alejandra
+    ];
+  };
 
   programs.zsh = {
     enable = true;

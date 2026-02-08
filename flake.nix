@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     home-manager = {
@@ -8,13 +9,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lazyvim.url = "github:pfassina/lazyvim-nix";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, nixos-hardware, lazyvim, nix-flatpak, ... }:
+    { nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, lazyvim, nix-flatpak, noctalia, ... }:
+    let
+      system = "x86_64-linux";
+      lib = nixpkgs.lib;
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+    in
     {
-      nixosConfigurations.framework = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      nixosConfigurations.framework = lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit pkgs-unstable; };
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
           ./configuration.nix

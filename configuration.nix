@@ -43,6 +43,7 @@
   ## PACKAGES
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
+    zx
     nix-index
     nvd
     vim

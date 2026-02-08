@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   programs.hyprland = {
@@ -8,7 +8,19 @@
   };
   programs.uwsm = {
     enable = true;
+    waylandCompositors = {
+      niri = {
+        prettyName = "Niri";
+        comment = "Niri compositor managed by UWSM";
+        binPath = "${pkgs.niri}/bin/niri-session";
+      };
+    };
   };
+  programs.niri = {
+    enable = true;
+    useNautilus = true;
+  };
+  programs.xwayland.enable = true;
 
   fonts.packages = with pkgs; [
     cascadia-code
@@ -32,7 +44,10 @@
   security.pam.services.greetd.enableGnomeKeyring = true;
 
   environment.systemPackages = with pkgs; [
+    pkgs-unstable.noctalia-shell
+    xwayland-satellite
     waybar
+    swaylock
     hyprpaper
     greetd
     pavucontrol
@@ -57,11 +72,11 @@
     enable = true;
     settings = {
       initial_session = {
-        command = "${pkgs.uwsm}/bin/uwsm start hyprland-uwsm.desktop";
+        command = "${pkgs.uwsm}/bin/uwsm start niri-uwsm.desktop";
         user = "ken";
       };
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time -c ${pkgs.uwsm}/bin/uwsm start hyprland-uwsm.desktop";
+        command = "${pkgs.tuigreet}/bin/tuigreet --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time -c ${pkgs.uwsm}/bin/uwsm start niri-uwsm.desktop";
         user = "greeter";
       };
     };
