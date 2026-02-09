@@ -1,14 +1,18 @@
-{ config, lib, pkgs, nix-flatpak, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  nix-flatpak,
+  ...
+}:
 
 {
   ##############
   ## IMPORTS
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./wayland.nix
-    ];
-
+  imports = [
+    ./hardware-configuration.nix
+    ./wayland.nix
+  ];
 
   ##############
   ## BASICS
@@ -24,20 +28,27 @@
     wifi.powersave = false;
   };
 
-
   ##############
   ## USERS
   programs.zsh.enable = true;
   users.users.ken = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "video" "input" "docker" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "input"
+      "docker"
+    ];
     packages = with pkgs; [
       tree
     ];
   };
-  nix.settings.trusted-users = [ "root" "ken" ];
-
+  nix.settings.trusted-users = [
+    "root"
+    "ken"
+  ];
 
   ##############
   ## PACKAGES
@@ -76,7 +87,7 @@
     };
   };
   services.flatpak = {
-    enable = true; 
+    enable = true;
     update.auto.enable = false;
     uninstallUnmanaged = false;
     packages = [
@@ -87,16 +98,21 @@
       "io.github.martchus.syncthingtray"
       "org.chromium.Chromium"
     ];
+    overrides = {
+      "com.vivaldi.Vivaldi".Context = {
+        filesystems = [
+          "home/Downloads"
+        ];
+      };
+    };
   };
-
 
   ##############
   ## HARDWARE
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;   # needed for 32-bit DX9 via Wine/DXVK
+    enable32Bit = true; # needed for 32-bit DX9 via Wine/DXVK
   };
-
 
   ##############
   ## SECURITY
@@ -117,7 +133,6 @@
     };
   };
 
-
   ##############
   ## NIX/UPDATES
   nix.gc = {
@@ -128,9 +143,12 @@
 
   nix.optimise = {
     automatic = true;
-    dates = ["weekly"];
+    dates = [ "weekly" ];
   };
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -152,4 +170,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-
