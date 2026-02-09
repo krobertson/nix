@@ -13,6 +13,7 @@
   ##############
   ## PACKAGES
   home.packages = with pkgs; [
+    yadm
     unzip
     xclip
     gcc
@@ -33,6 +34,7 @@
     satty
     stow
     caligula
+    imagemagick
 
     (pkgs.writeShellApplication {
       name = "ns";
@@ -105,6 +107,9 @@
       DISABLE_UNTRACKED_FILES_DIRTY="true"
       eval "$(${pkgs.mise}/bin/mise activate zsh)"
     '';
+    shellAliases = {
+      gs = "git status -s";
+    };
   };
 
   programs.atuin = {
