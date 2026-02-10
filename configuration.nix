@@ -10,7 +10,6 @@
   ##############
   ## IMPORTS
   imports = [
-    ./hardware-configuration.nix
     ./wayland.nix
   ];
 
@@ -20,7 +19,6 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   time.timeZone = "America/Los_Angeles";
-  networking.hostName = "framework";
 
   networking.networkmanager = {
     enable = true;
@@ -73,10 +71,6 @@
   services.openssh.enable = true;
   services.fwupd.enable = true;
   services.fstrim.enable = true;
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
   virtualisation.docker = {
     enable = true;
     daemon.settings = {

@@ -69,6 +69,7 @@
     tokyonight-gtk-theme
     adwaita-icon-theme
     papirus-icon-theme
+    inxi
   ];
 
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID";
