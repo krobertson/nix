@@ -90,7 +90,6 @@
       "com.valvesoftware.Steam"
       "md.obsidian.Obsidian"
       "io.github.martchus.syncthingtray"
-      "org.chromium.Chromium"
     ];
     overrides = {
       "com.vivaldi.Vivaldi".Context = {
