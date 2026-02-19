@@ -13,6 +13,11 @@
   ##############
   ## PACKAGES
   home.packages = with pkgs; [
+    zip
+    jq
+    yq
+    inetutils
+    dnsutils
     yadm
     unzip
     xclip
