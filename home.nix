@@ -15,7 +15,13 @@
   home.packages = with pkgs; [
     zip
     jq
-    yq
+    yq-go
+    neofetch
+    xq
+    awscli2
+    btop
+    vscode-fhs
+    vscodium-fhs
     inetutils
     dnsutils
     yadm
