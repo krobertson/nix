@@ -16,7 +16,15 @@
   };
 
   outputs =
-    { nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, lazyvim, nix-flatpak, noctalia, ... }:
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nixos-hardware,
+      lazyvim,
+      nix-flatpak,
+      ...
+    }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -24,52 +32,53 @@
     in
     {
       nixosConfigurations = {
-      framework = lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit pkgs-unstable; };
-        modules = [
-          nix-flatpak.nixosModules.nix-flatpak
-	  ./configurations/nixos/framework.nix
-          ./configuration.nix
-          ./wayland.nix
-          nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.ken = import ./home.nix;
-              backupFileExtension = "backup";
-              sharedModules = [
-                lazyvim.homeManagerModules.lazyvim
-              ];
-            };
-          }
-        ];
-      };
-      amdy = lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit pkgs-unstable; };
-        modules = [
-          nix-flatpak.nixosModules.nix-flatpak
-	  ./configurations/nixos/amdy.nix
-          ./configuration.nix
-          ./wayland.nix
-          nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.ken = import ./home.nix;
-              backupFileExtension = "backup";
-              sharedModules = [
-                lazyvim.homeManagerModules.lazyvim
-              ];
-            };
-          }
-        ];
-      };
+        framework = lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit pkgs-unstable; };
+          modules = [
+            nix-flatpak.nixosModules.nix-flatpak
+            ./configurations/nixos/framework.nix
+            ./configuration.nix
+            ./wayland.nix
+            nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.ken = import ./home.nix;
+                backupFileExtension = "backup";
+                sharedModules = [
+                  lazyvim.homeManagerModules.lazyvim
+                ];
+              };
+            }
+          ];
+        };
+
+        amdy = lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit pkgs-unstable; };
+          modules = [
+            nix-flatpak.nixosModules.nix-flatpak
+            ./configurations/nixos/amdy.nix
+            ./configuration.nix
+            ./wayland.nix
+            nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.ken = import ./home.nix;
+                backupFileExtension = "backup";
+                sharedModules = [
+                  lazyvim.homeManagerModules.lazyvim
+                ];
+              };
+            }
+          ];
+        };
       };
     };
 }

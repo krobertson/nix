@@ -40,12 +40,15 @@
     mise
     xfce.thunar
     alacritty
+    ghostty
     nwg-look
     hyprshot
     satty
     stow
     caligula
     imagemagick
+    tiny
+    kicad
 
     (pkgs.writeShellApplication {
       name = "ns";
