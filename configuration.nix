@@ -94,6 +94,8 @@
       "app.xmcl.voxelum"
       "org.prismlauncher.PrismLauncher"
       "org.chromium.Chromium"
+      "com.usebottles.bottles"
+      "org.kicad.KiCad"
     ];
     overrides = {
       "com.vivaldi.Vivaldi".Context = {
